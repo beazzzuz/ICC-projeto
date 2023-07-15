@@ -2,7 +2,7 @@
  * Nome do arquivo: mercadinho.c
  * Descrição: Um mercadinho deseja manter seu estoque informatizado e utilizar um sistema para realizar suas vendas, consultas ao estoque e ao saldo atual do caixa. Para isso foi impletado 8 funções (contando com a main), cada função possui um comando especifico escolhido pelo o usuário. O objetivo desse código é implementar um sistema simples de gerenciamento de estoque e vendas. O programa permite a inserção de produtos no estoque, aumentar a quantidade de um produto, modificar o preço de um produto, realizar vendas e consultar o estoque e o saldo do caixa. O programa utiliza um arquivo para armazenar os dados do caixa e do estoque. Ao iniciar, o programa verifica se o arquivo existe. Se existir, ele lê os valores do caixa e dos produtos armazenados no estoque. Se o arquivo não existir, o usuário é solicitado a informar o tamanho do estoque e o valor inicial do caixa.
  * Autores: Isabela Farias - NUSP: 13823833
- *          Nicolas        - NUSP: 
+ *          Nicolas Carreiro - NUSP: 14600801
  */
 
 
@@ -122,7 +122,7 @@ void consultarSaldo(float saldo)
 
 
 /*A função FinalizarExpediente é responsável por finalizar o expediente, salvando os dados do caixa e do estoque em um arquivo. Ela recebe o saldo total no final do expediente (caixa), o estoque (estoque), o tamanho do estoque (tam). Após isso ela abre o arquivo no modo de escrita ("w") usando a função fopen e verifica se o arquivo foi aberto com sucesso. Se sim, escreve o valor do caixa e o tamanho do estoque no arquivo usando a função fprintf e em seguida, usando um loop for, escreve os dados de cada produto no estoque no arquivo. Após escrever todos os dados, fecha o arquivo usando a função fclose. Agora Se ocorrer algum erro ao abrir ou escrever no arquivo, exibe uma mensagem de erro usando printf. Essa função é essencial para garantir a persistência dos dados do caixa e do estoque entre diferentes execuções do programa, permitindo que os dados sejam recuperados posteriormente.*/
-void FinalizarExpediente(int caixa, Produto *estoque, int tam)
+void FinalizarExpediente(float caixa, Produto *estoque, int tam)
 {
     FILE *arquivo;
     arquivo = fopen("dados.txt", "w");
@@ -130,7 +130,7 @@ void FinalizarExpediente(int caixa, Produto *estoque, int tam)
     if (arquivo != NULL)
     {
         // Escreve o valor do caixa e o tamanho do estoque no arquivo
-        fprintf(arquivo, "%d %d\n", caixa, tam);
+        fprintf(arquivo, "%.2f %d\n", caixa, tam);
         
         // Escreve os dados de cada produto no arquivo
         for (int i = 0; i < tam; i++)
