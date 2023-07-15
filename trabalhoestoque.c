@@ -1,13 +1,14 @@
 /*
- * Nome do arquivo: mercadinho.c
+ * Trabalho feito para a disciplina Introdução a Ciência da Computação 1
+ * Professor: Rudinei Goulart
+ * Integrantes: Isabela Farias - NUSP: 13823833
+ *              Nicolas Carreiro - NUSP: 14600801
  * Descrição: Um mercadinho deseja manter seu estoque informatizado e utilizar um sistema para realizar suas vendas, consultas ao estoque e ao saldo atual do caixa. Para isso foi impletado 8 funções (contando com a main), cada função possui um comando especifico escolhido pelo o usuário. O objetivo desse código é implementar um sistema simples de gerenciamento de estoque e vendas. O programa permite a inserção de produtos no estoque, aumentar a quantidade de um produto, modificar o preço de um produto, realizar vendas e consultar o estoque e o saldo do caixa. O programa utiliza um arquivo para armazenar os dados do caixa e do estoque. Ao iniciar, o programa verifica se o arquivo existe. Se existir, ele lê os valores do caixa e dos produtos armazenados no estoque. Se o arquivo não existir, o usuário é solicitado a informar o tamanho do estoque e o valor inicial do caixa.
- * Autores: Isabela Farias - NUSP: 13823833
- *          Nicolas Carreiro - NUSP: 14600801
- */
+*/
 
 
-#include <stdio.h>
-#include <stdlib.h> //biblioteca para uso de locação dinâmica de memória 
+#include <stdio.h> // biblioteca básica de input e output do C
+#include <stdlib.h> //biblioteca para uso de locação dinâmica de memória
 #include <string.h> //biblioteca para manipulação de string
 
 /*Essa parte do código define uma estrutura chamada Produto usando a palavra-chave typedef. A estrutura Produto é usada para armazenar informações sobre um produto, incluindo o nome do produto, a quantidade em estoque e o preço do produto.
@@ -22,7 +23,17 @@ typedef struct
     int quantidade;
     float preco;
 } Produto;
+Produto;
 
+// Protótipos das funções
+void linha();
+void InserirProduto(Produto **estoque, int *tamanho, char *nome, int quantidade, float preco, int *max);
+void aumentarEstoque(Produto *estoque, int tamanho, int codigo, int quantidade);
+void modificarPreco(Produto *estoque, int tamanho, int codigo, float preco);
+void Venda(Produto *estoque, int tamanho, float *caixa, int *codigoProdutos);
+void consultarEstoque(Produto *estoque, int tamanho);
+void consultarSaldo(float saldo);
+void FinalizarExpediente(float caixa, Produto *estoque, int tam);
 
 // Esta função linha() é responsável por imprimir uma linha de caracteres de separação. Ela utiliza um loop for para imprimir o caractere "-" 50 vezes e, em seguida, imprime uma quebra de linha para avançar para a próxima linha. Assim não será preciso colocar o traço cinquenta vezes o que facilita na vizualição e efetividade do código. 
 void linha()
@@ -192,7 +203,7 @@ int main()
         {
             fclose(arquivo);
         }
-        else
+        else 
         {
             printf("Erro ao ler os dados do arquivo.\n");
             return 1;
