@@ -164,18 +164,41 @@ int main()
     arquivo = fopen("dados.txt", "r");
     if (arquivo != NULL)
     {
-        // Lê o valor do caixa do arquivo
-        fscanf(arquivo, "%f", &caixa);
+        // Lê o valor do caixa do arquivo e o tamanho do estoque
+        fscanf(arquivo, "%f %d", &caixa, &espacoEstoque);
 
-        //Enquanto o arquivo não estiver vazio o programa lê os dados dos produtos do arquivo e insere no estoque. Esse caso é usado para quando há registros do dia anterior. 
-        while (!feof(arquivo))
+        estoque = (Produto *)malloc(espacoEstoque * sizeof(Produto));
+        //Verifica se há memória para o alocamento
+        if (estoque == NULL)
+        {
+            printf("Erro ao alocar memória.\n");
+            return 1;
+        }
+
+        // Enquanto o arquivo não estiver vazio o programa lê os dados dos produtos do arquivo e insere no estoque. Esse caso é usado para quando há registros do dia anterior.
+        while (1)
         {
             Produto novoProduto;
-            fscanf(arquivo, "%s %d %f", novoProduto.nome, &novoProduto.quantidade, &novoProduto.preco);
+            int result = fscanf(arquivo, "%s %d %f", novoProduto.nome, &novoProduto.quantidade, &novoProduto.preco);
+            if (result != 3)
+            {
+                break;
+            }
             InserirProduto(&estoque, &tamanhoEstoque, novoProduto.nome, novoProduto.quantidade, novoProduto.preco, &espacoEstoque);
         }
 
-        fclose(arquivo); 
+        // Verifica se chegou ao final do arquivo
+        if (feof(arquivo))
+        {
+            fclose(arquivo);
+        }
+        else
+        {
+            printf("Erro ao ler os dados do arquivo.\n");
+            return 1;
+        }
+
+
     }
     else
     {
