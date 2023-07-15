@@ -94,24 +94,30 @@ void modificarPreco(Produto *estoque, int tamanho, int codigo, float preco)
 
 void Venda(Produto *estoque, int tamanho, float *caixa, int *codigoProdutos)
 {
-    float total = 0.0;
-    int codigo;
-    int i = 0;
+    float total = 0.0; // Variável para armazenar o valor total da venda
+    int codigo; // Variável para armazenar o código de um produto
+    int i = 0; // Variável de controle para percorrer o array de códigos de produtos
+
     while (codigoProdutos[i] != -1)
     {
         codigo = codigoProdutos[i];
+
         if (codigo >= 0 && codigo < tamanho && estoque[codigo].quantidade > 0)
         {
             printf("%s %.2f\n", estoque[codigo].nome, estoque[codigo].preco);
-            total += estoque[codigo].preco;
-            estoque[codigo].quantidade--;
+
+            total += estoque[codigo].preco; // Incrementa o valor total com o preço do produto
+            estoque[codigo].quantidade--; // Decrementa a quantidade do produto no estoque
         }
-        i++;
+
+        i++; // Incrementa o índice para avançar para o próximo código de produto
     }
-    printf("Total: %.2f\n", total);
-    (*caixa) += total;
-    linha();
+
+    printf("Total: %.2f\n", total); // Imprime o valor total da venda
+    (*caixa) += total; // Atualiza o valor do caixa somando o valor total da venda
+    linha(); // Função auxiliar para imprimir uma linha separadora
 }
+
 /*A função consultarEstoque() permite consultar o estoque atual. Ela recebe o estoque (estoque) e o tamanho do estoque (tamanho). A função percorre o estoque e imprime o índice do produto, o nome do produto e a quantidade disponível. Após imprimir todos os produtos, é chamada a função linha() para imprimir uma linha de separação.*/
 
 void consultarEstoque(Produto *estoque, int tamanho)
@@ -140,12 +146,15 @@ void FinalizarExpediente(float caixa, Produto *estoque, int tam)
     
     if (arquivo != NULL)
     {
+        // Arquivo aberto com sucesso
+
         // Escreve o valor do caixa e o tamanho do estoque no arquivo
         fprintf(arquivo, "%.2f %d\n", caixa, tam);
         
         // Escreve os dados de cada produto no arquivo
         for (int i = 0; i < tam; i++)
         {
+            // Escreve o nome, quantidade e preço de cada produto no arquivo
             fprintf(arquivo, "%s %d %.2f\n", estoque[i].nome, estoque[i].quantidade, estoque[i].preco);
         }
         
@@ -153,6 +162,7 @@ void FinalizarExpediente(float caixa, Produto *estoque, int tam)
     }
     else
     {
+        // Erro ao abrir o arquivo
         printf("Erro ao salvar os dados.\n");
     }
 }
@@ -264,25 +274,25 @@ int main()
         {
             int codigo; // inteiro para armazenar o código de um produto durante a leitura dos códigos dos produtos vendidos.
             int i = 0;//contador utilizado para percorrer o array `codigoProdutos` e armazenar os códigos dos produtos.
-            int *codigoProdutos = NULL; // ponteiro para um array de inteiros que armazenará os códigos dos produtos vendidos. É alocado dinamicamente com tamanho `tamanhoEstoque` para garantir que tenha espaço suficiente para armazenar todos os códigos.
-            int *listatemp = NULL;
+            int *codigoProdutos = NULL; // ponteiro para um array de inteiros que armazenará os códigos dos produtos vendidos.
+            int *listatemp = NULL; //ponteiro para um array de inteiros que armazenará os códigos dos produtos vendidos temporariamente.  É alocado dinamicamente com tamanho `codigoProdutos` para garantir que tenha espaço suficiente para armazenar todos os códigos.
 
             /* - Dentro de um loop while infinito, é lido um código de produto usando a função scanf. Se o código lido for igual a -1, significa que não há mais produtos a serem vendidos, e o loop é interrompido com a instrução `break`. Caso contrário, o código é armazenado no array codigoProdutos na posição i, e o contador i é incrementado.*/
             while (1)
             {
-                listatemp = (int *)realloc (codigoProdutos, (i+1) * sizeof(int));
-                if (listatemp == NULL) {
+                listatemp = (int *)realloc (codigoProdutos, (i+1) * sizeof(int)); 
+                if (listatemp == NULL) { //verifica se há espaço na memória
                     printf("Erro ao alocar memória.\n");
                     free(listatemp);
                 }
 
                 scanf("%d", &codigo);
-                if (codigo == -1)
+                if (codigo == -1) //Condição de parada em que verifica a entrada do usuário, é aqui que o while irá parar, quando o usuário digitar -1. 
                 {
                     break;
                 }
-                codigoProdutos = listatemp;
-                codigoProdutos[i] = codigo;
+                codigoProdutos = listatemp; //Aqui o listatemp servirá como uma variavel auxiliar. Isso é feito para atualizar o valor de codigoProdutos com a memória realocada. 
+                codigoProdutos[i] = codigo; // Armazena o código lido na posição i do array codigoProdutos.
                 i++;
             }
             /*Após o loop de leitura dos códigos, é atribuído o valor -1 à próxima posição do array codigoProdutos, indicando o fim da lista de códigos. O array codigoProdutos será passado como argumento para a função Venda.*/
