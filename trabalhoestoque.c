@@ -23,7 +23,7 @@ typedef struct
     int quantidade;
     float preco;
 } Produto;
-Produto;
+
 
 // Protótipos das funções
 void linha();
