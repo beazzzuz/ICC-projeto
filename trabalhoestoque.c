@@ -275,7 +275,8 @@ int main()
             int codigo; // inteiro para armazenar o código de um produto durante a leitura dos códigos dos produtos vendidos.
             int i = 0;//contador utilizado para percorrer o array `codigoProdutos` e armazenar os códigos dos produtos.
             int *codigoProdutos = NULL; // ponteiro para um array de inteiros que armazenará os códigos dos produtos vendidos.
-            int *listatemp = NULL; //ponteiro para um array de inteiros que armazenará os códigos dos produtos vendidos temporariamente.  É alocado dinamicamente com tamanho `codigoProdutos` para garantir que tenha espaço suficiente para armazenar todos os códigos.
+            int *listatemp = NULL; //ponteiro para um array de inteiros que armazenará os códigos dos produtos vendidos temporariamente.  É realocado dinamicamente com tamanho 'i+1', usando o codigoProdutos como base.
+
 
             /* - Dentro de um loop while infinito, é lido um código de produto usando a função scanf. Se o código lido for igual a -1, significa que não há mais produtos a serem vendidos, e o loop é interrompido com a instrução `break`. Caso contrário, o código é armazenado no array codigoProdutos na posição i, e o contador i é incrementado.*/
             while (1)
